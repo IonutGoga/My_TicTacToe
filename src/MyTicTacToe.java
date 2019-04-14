@@ -114,7 +114,7 @@ public class MyTicTacToe {
             isWin = isWinDiag1(symbol);
         }
         //testez diagonala 2
-        if(isWin == false && move.line == move.col){
+        if(isWin == false && move.line == GAME_SIZE - move.col - 1){
             isWin = isWinDiag2(symbol);
         }
         return isWin;
@@ -148,16 +148,21 @@ public class MyTicTacToe {
                 isWin = isWin(move, currentSymbol);
             }
             // daca nu e WIN --- schimb jucatorul
-            if(currentPlayer == player1){
-                currentPlayer = player2;
-                currentSymbol = SYMBOL_0;
-            } else {
-                currentPlayer = player1;
-                currentSymbol = SYMBOL_X;
+            if(!isWin) {
+                if (currentPlayer == player1) {
+                    currentPlayer = player2;
+                    currentSymbol = SYMBOL_0;
+                } else {
+                    currentPlayer = player1;
+                    currentSymbol = SYMBOL_X;
+                }
             }
-
         }
-
+        if(isWin == false){
+            System.out.println("Remiza");
+        } else {
+            System.out.println("Castigatorul este: " + currentPlayer);
+        }
         //afisez mesaj corespunzator
     }
 
