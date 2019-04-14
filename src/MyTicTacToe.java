@@ -1,3 +1,4 @@
+import java.util.Scanner;
 public class MyTicTacToe {
 
     public static final char SYMBOL_X = 'X';
@@ -32,6 +33,22 @@ public class MyTicTacToe {
         }
     }
 
+    public Move readMove(){
+        Scanner s = new Scanner(System.in);
+        System.out.println("Make move: ");
+        String myMove = s.nextLine();
+
+        String[] splt = myMove.split("-");
+        int myLine = Integer.valueOf(splt[0]);
+        int myCol = Integer.valueOf(splt[1]);
+
+        Move m = new Move(myLine, myCol);
+
+        return m;
+    }
+
+
+
     public boolean isWin(){
         //testez linii
         //testez coloane
@@ -52,6 +69,9 @@ public class MyTicTacToe {
         while(isWin == false || nrMoves < 9 ){
 
             //citesc mutare
+            Move move = readMove();
+            System.out.println(move.line);
+            System.out.println(move.col);
             //validez mutare
             //efectuez mutare
             //numar mutare
