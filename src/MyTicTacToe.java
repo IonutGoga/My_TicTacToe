@@ -47,14 +47,77 @@ public class MyTicTacToe {
         return m;
     }
 
+    public void makeMove(Move move, char symbol){
+        game[move.line][move.col] = symbol;
+    }
 
 
-    public boolean isWin(){
+    public boolean isWinLine(int line, char symbol){
+        boolean isWin = true;
+        int i = 0;
+        while(i < GAME_SIZE && isWin == true){
+            if(game[line][i] != symbol){
+                isWin = false;
+            }
+            i++;
+        }
+        return isWin;
+    }
+
+    public boolean isWinCol(int col, char symbol){
+        boolean isWin = true;
+        int i = 0;
+        while(i < GAME_SIZE && isWin == true){
+            if(game[i][col] != symbol){
+                isWin = false;
+            }
+            i++;
+        }
+        return isWin;
+    }
+
+    public boolean isWinDiag1(char symbol){
+        boolean isWin = true;
+        int i = 0;
+        while(i < GAME_SIZE && isWin == true){
+            if(game[i][i] != symbol){
+                isWin = false;
+            }
+            i++;
+        }
+        return isWin;
+    }
+
+    public boolean isWinDiag2(char symbol){
+        boolean isWin = true;
+        int i = 0;
+        while(i < GAME_SIZE && isWin == true){
+            if(game[i][GAME_SIZE - i -1] != symbol){
+                isWin = false;
+            }
+            i++;
+        }
+        return isWin;
+    }
+
+    public boolean isWin(Move move, char symbol){
+        boolean isWin = false;
         //testez linii
+        isWin = isWinLine(move.line, symbol);
+
         //testez coloane
+        if(isWin == false){
+            isWin = isWinCol(move.col, symbol);
+        }
         //testez diagonala 1
+        if(isWin == false && move.line == move.col){
+            isWin = isWinDiag1(symbol);
+        }
         //testez diagonala 2
-        return false;
+        if(isWin == false && move.line == move.col){
+            isWin = isWinDiag2(symbol);
+        }
+        return isWin;
     }
 
     public void playGame(){
@@ -63,6 +126,8 @@ public class MyTicTacToe {
         showGame();
 
         Player currentPlayer = player1;
+        char currentSymbol = SYMBOL_X;
+
         int nrMoves = 0;
         boolean isWin = false;
 
@@ -70,13 +135,26 @@ public class MyTicTacToe {
 
             //citesc mutare
             Move move = readMove();
-            System.out.println(move.line);
-            System.out.println(move.col);
             //validez mutare
+
             //efectuez mutare
+            makeMove(move, currentSymbol);
+            showGame();
             //numar mutare
-            //testez daca avem stare de WIN
+            nrMoves++;
+
+            if(nrMoves <= (2 * GAME_SIZE - 1)) {  //numarul maxim de mutari pana la win
+                //testez daca avem stare de WIN
+                isWin = isWin(move, currentSymbol);
+            }
             // daca nu e WIN --- schimb jucatorul
+            if(currentPlayer == player1){
+                currentPlayer = player2;
+                currentSymbol = SYMBOL_0;
+            } else {
+                currentPlayer = player1;
+                currentSymbol = SYMBOL_X;
+            }
 
         }
 
